@@ -1,8 +1,8 @@
 
 const menuItems = [
-    { id: 'addColumn', text: 'Добавить колонку', icon: 'add' },
-    { id: 'addChieldColumn', text: 'Добавить вложенную колонку', icon: 'add' },
-    { id: 'deleteColumn', text: 'Удалить колонку', icon: 'trash' }
+    { id: 'addColumn', text: 'Добавить колонку', icon: 'add', enabled: 'true' },
+    { id: 'addChieldColumn', text: 'Добавить вложенную колонку', icon: 'add', enabled: 'true' },
+    { id: 'deleteColumn', text: 'Удалить колонку', icon: 'trash', enabled: 'false' }
 ];
 
 const plan = [

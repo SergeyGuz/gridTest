@@ -13,12 +13,12 @@
             widget="dxButton"
         />
         <ToolBarItem
-            :options="{ icon: 'insertcolumnleft', onClick: () => this.addNewColumn(null) }"
+            :options="{ icon: 'insertcolumnleft', onClick: () => this.addNewColumn(null, undefined) }"
             location="before"
             widget="dxButton"
         />
         <ToolBarItem
-            :options="{ icon: 'insertcolumnright', onClick: () => this.addNewColumn(this.findItemByKey(this.myColumns, this.selectionColumn.name)) }"
+            :options="{ icon: 'insertcolumnright', onClick: () => this.addNewColumn(this.findItemByKey(this.myColumns, this.selectionColumn.name), undefined) }"
             location="before"
             widget="dxButton"
             :disabled="isNotColumnSelect"
@@ -28,6 +28,12 @@
             location="before"
             widget="dxButton"
             :disabled="isNotColumnSelect"
+        />
+        <ToolBarItem
+            :options="{ icon: 'inserttable', onClick: () => this.columnsFromDatasource(this.myGrid)}"
+            location="before"
+            widget="dxButton"
+            :disabled="isColumns"
         />
       </DxToolbar>
     </div>
@@ -293,11 +299,12 @@
           <div class="form-container2">
             <DxTreeView
                 ref="treeview"
-                :data-source = "myColumns"
+                :data-source = "myTreeColumns"
                 selection-mode="single"
-                :width="600"
+                :select-by-click="true"
+                show-check-boxes-mode="none"
+                :width="500"
                 key-expr="name"
-                has-items-expr="isBand"
                 items-expr="columns"
                 display-expr="caption"
                 dataStructure="tree"
@@ -318,34 +325,41 @@
                 ref="form2"
                 :col-count="1"
                 height="760"
-                width="600"
+                width="540"
                 :scrollingEnabled="true"
                 @field-data-changed="formFieldDataChanged"
             >
-              <DxItem item-type="simple" data-field='alignment' editor-type='dxSelectBox' :editor-options=" {items: [undefined, 'center', 'left', 'right']}"/>
-              <DxItem item-type="simple" data-field='allowEditing' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowExporting' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowFiltering' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowFixing' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowGrouping' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowHeaderFiltering' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowHiding' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowReordering' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowResizing' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowSearch' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='allowSorting' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='autoExpandGroup' editor-type="dxCheckBox"/>
+              <DxItem item-type="group" :visible="true" :alignItemLabels="false" :col-count=1 >
+                <DxItem item-type="simple" data-field='dataField' editor-type='dxSelectBox' :label= "{text: 'Имя поля' }" :editor-options= "{searchEnabled: true, items: fieldList }"/>
+                <DxItem item-type="simple" data-field='dataType' editor-type='dxSelectBox' :label= "{text: 'Тип поля' }" :editor-options=" {items: [undefined, 'string', 'number', 'date', 'boolean', 'object', 'datetime']}"/>
+                <DxItem item-type="simple" data-field='caption' editor-type="dxTextBox" :label= "{text: 'Заголовок колонки' }"/>
+                <DxItem item-type="simple" data-field='alignment' editor-type='dxSelectBox' :label= "{text: 'Выравнивание' }" :editor-options=" {items: [undefined, 'center', 'left', 'right']}"/>
+                <DxItem item-type="simple" data-field='cellTemplate' editor-type="dxTextBox" :label= "{text: 'Шаблон ячейки' }"/>
+                <DxItem item-type="simple" data-field='headerCellTemplate' :label= "{text: 'Шаблон заголовка' }"/>
+              </DxItem>
+              <DxItem item-type="group" :visible="true" caption="Разрешения" :col-count=2 >
+                <DxItem item-type="simple" data-field='allowEditing' editor-type="dxCheckBox" :label= "{text: 'Редактировать' }"/>
+                <DxItem item-type="simple" data-field='allowExporting' editor-type="dxCheckBox" :label= "{text: 'Экспортировать' }"/>
+                <DxItem item-type="simple" data-field='allowFiltering' editor-type="dxCheckBox" :label= "{text: 'Фильтровать' }"/>
+                <DxItem item-type="simple" data-field='allowFixing' editor-type="dxCheckBox" :label= "{text: 'Фиксировать' }"/>
+                <DxItem item-type="simple" data-field='allowGrouping' editor-type="dxCheckBox" :label= "{text: 'Группировать' }"/>
+                <DxItem item-type="simple" data-field='allowHeaderFiltering' editor-type="dxCheckBox" :label= "{text: 'Фильтр в заголовке' }"/>
+                <DxItem item-type="simple" data-field='allowHiding' editor-type="dxCheckBox" :label= "{text: 'Скрывать' }"/>
+                <DxItem item-type="simple" data-field='allowReordering' editor-type="dxCheckBox" :label= "{text: 'Переставлять' }"/>
+                <DxItem item-type="simple" data-field='allowResizing' editor-type="dxCheckBox" :label= "{text: 'Изменять размер' }"/>
+                <DxItem item-type="simple" data-field='allowSearch' editor-type="dxCheckBox" :label= "{text: 'Искать' }"/>
+                <DxItem item-type="simple" data-field='allowSorting' editor-type="dxCheckBox" :label= "{text: 'Сортировать' }"/>
+                <DxItem item-type="simple" data-field='autoExpandGroup' editor-type="dxCheckBox" :label= "{text: 'Раскрывать группу' }"/>
+                <DxItem item-type="simple" data-field='encodeHtml' editor-type="dxCheckBox" :label= "{text: 'HTML как текст ' }"/>
+                <DxItem item-type="simple" data-field='showEditorAlways' editor-type="dxCheckBox" :label= "{text: 'Показывать в редакторе' }"/>
+                <DxItem item-type="simple" data-field='showInColumnChooser' editor-type="dxCheckBox" :label= "{text: 'Показывать в Shooser' }"/>
+                <DxItem item-type="simple" data-field='showWhenGrouped' editor-type="dxCheckBox" :label= "{text: 'Показывать при группировании' }"/>
+                <DxItem item-type="simple" data-field='visible' editor-type="dxCheckBox" :label= "{text: 'Видимая колонка' }"/>
+              </DxItem>
+<!--              <DxItem item-type="simple" data-field='buttons' template="buttons"/>-->
 
-              <DxItem item-type="simple" data-field='buttons' template="buttons"/>
-
-              <DxItem item-type="simple" data-field='caption' editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field='cellTemplate' editor-type="dxTextBox"/>
               <DxItem item-type="simple" data-field='cssClass' editor-type="dxTextBox"/>
 
-              <DxItem item-type="simple" data-field='dataField' editor-type='dxSelectBox' :editor-options= "{searchEnabled: true, items: fieldList }"/>
-
-              <DxItem item-type="simple" data-field='dataType' editor-type='dxSelectBox' :editor-options=" {items: [undefined, 'string', 'number', 'date', 'boolean', 'object', 'datetime']}"/>
-              <DxItem item-type="simple" data-field='encodeHtml' editor-type="dxCheckBox"/>
               <DxItem item-type="simple" data-field='falseText' editor-type="dxTextBox"/>
               <DxItem item-type="simple" data-field='filterOperations'/>
               <DxItem item-type="simple" data-field='filterType' editor-type='dxSelectBox' :editor-options=" {items: ['exclude', 'include']}"/>
@@ -360,7 +374,6 @@
                         'quarterAndYear', 'shortDate', 'shortTime', 'thousands', 'trillions', 'year', 'dayOfWeek', 'hour', 'longDateLongTime', 'minute', 'second', 'shortDateShortTime']}"/>
               <DxItem item-type="simple" data-field='groupCellTemplate'/>
               <DxItem item-type="simple" data-field='groupIndex' editor-type="dxNumberBox"/>
-              <DxItem item-type="simple" data-field='headerCellTemplate'/>
 
               <DxItem item-type="simple" data-field='headerFilter.allowSearch' editor-type="dxCheckBox"/>
               <DxItem item-type="simple" data-field='headerFilter.dataSource'/>
@@ -370,7 +383,7 @@
               <DxItem item-type="simple" data-field='headerFilter.width' editor-type="dxNumberBox"/>
 
               <DxItem item-type="simple" data-field='hidingPriority' editor-type="dxNumberBox"/>
-              <DxItem item-type="simple" data-field='isBand' editor-type="dxCheckBox" :editor-options="{disabled: true}"/>
+<!--              <DxItem item-type="simple" data-field='isBand' editor-type="dxCheckBox" :editor-options="{disabled: true}"/>-->
 
               <DxItem item-type="simple" data-field='lookup.allowClearing' editor-type="dxCheckBox"/>
               <DxItem item-type="simple" data-field='lookup.dataSource'/>
@@ -378,53 +391,17 @@
               <DxItem item-type="simple" data-field='lookup.valueExpr' editor-type="dxTextBox"/>
 
               <DxItem item-type="simple" data-field='minWidth' editor-type="dxNumberBox"/>
-              <DxItem item-type="simple" data-field='name' editor-type="dxTextBox" :editor-options="{disabled: true}"/>
-              <DxItem item-type="simple" data-field='ownerBand' editor-type="dxNumberBox" :editor-options="{disabled: true}"/>
+<!--              <DxItem item-type="simple" data-field='name' editor-type="dxTextBox" :editor-options="{disabled: true}"/>-->
+<!--              <DxItem item-type="simple" data-field='ownerBand' editor-type="dxNumberBox" :editor-options="{disabled: true}"/>-->
               <DxItem item-type="simple" data-field='renderAsync' editor-type="dxCheckBox"/>
               <DxItem item-type="simple" data-field='selectedFilterOperation'/>
-              <DxItem item-type="simple" data-field='showEditorAlways' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='showInColumnChooser' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='showWhenGrouped' editor-type="dxCheckBox"/>
 <!--              <DxItem item-type="simple" data-field='sortIndex' editor-type="dxNumberBox"/>-->
               <DxItem item-type="simple" data-field='sortOrder' editor-type='dxSelectBox' :editor-options=" {items: [undefined, 'asc', 'desc']}"/>
               <DxItem item-type="simple" data-field='trueText' editor-type="dxTextBox"/>
               <DxItem item-type="simple" data-field='type' editor-type='dxSelectBox' :editor-options=" {items: [undefined,'adaptive', 'buttons', 'detailExpand', 'groupExpand', 'selection', 'drag']}"/>
               <DxItem item-type="simple" data-field='validationRules'/>
-              <DxItem item-type="simple" data-field='visible' editor-type="dxCheckBox"/>
 <!--              <DxItem item-type="simple" data-field='visibleIndex' editor-type="dxNumberBox"/>-->
               <DxItem item-type="simple" data-field='width' editor-type="dxTextBox"/>
-
-              <template #buttons="{ data }">
-                <DxDataGrid
-                    :data-source='data'
-                    :allow-column-reordering="true"
-                    :row-alternation-enabled="true"
-                    :show-borders="true"
-                >
-                  <DxEditing
-                    :allow-updating="true"
-                    :allow-deleting="true"
-                    :allow-adding="true"
-                    mode="form"
-                  />
-                  <DxColumn
-                      data-field="name"
-                      caption="Наименование"
-                  />
-                  <DxColumn
-                      data-field="Text"
-                      caption="Надпись"
-                  />
-                  <DxColumn
-                      data-field="icon"
-                      caption="Иконка"
-                  />
-                  <DxColumn
-                      data-field="onClick"
-                      caption="Метод"
-                  />
-                </DxDataGrid>
-              </template>
 
             </DxForm>
           </div>
@@ -435,13 +412,26 @@
             id="grid"
             :visible="false"
         >
+          <DxEditing
+              :allow-updating="true"
+              :allow-deleting="true"
+              :allow-adding="true"
+              mode="form"
+          />
           <DxColumn
-              data-field="dataField"
+              data-field="id"
+              caption="Id"
+              header-cell-template=""
+              :visible="true"
           />
         </DxDataGrid>
         <DxDataGrid
             id="my-grid"
             ref="grid"
+            :show-borders="true"
+            :allow-column-reordering="true"
+            :allow-column-resizing="true"
+            :column-auto-width="true"
             :data-source="dataSource"
             @context-menu-preparing="addMenuItems"
             @cell-click="gridCellClick"
@@ -455,6 +445,8 @@
           <DxGroupPanel :visible="true"/>
           <DxSearchPanel :visible="true"/>
           <DxGrouping :auto-expand-all="false"/>
+          <DxColumnChooser :enabled="true"/>
+          <DxSorting mode="none"/>
           <template #header-cell-template="{ data }">
             <div class="cell-highlighted">
               {{ data.column.caption }}
@@ -471,14 +463,8 @@ import DxDrawer from 'devextreme-vue/drawer';
 import { DxForm, DxItem }  from 'devextreme-vue/form';
 import DxButton from 'devextreme-vue/button';
 import DxTagBox from 'devextreme-vue/tag-box';
-import { DxDataGrid,
-         DxColumn,
-        DxGrouping,
-        DxGroupPanel,
-        DxPager,
-        DxPaging,
-        DxSearchPanel,
-        DxEditing} from 'devextreme-vue/data-grid';
+import { DxDataGrid, DxColumn, DxGrouping, DxGroupPanel, DxPager, DxPaging, DxSearchPanel, DxEditing, DxColumnChooser,
+         DxSorting} from 'devextreme-vue/data-grid';
 import DxTreeView from 'devextreme-vue/tree-view';
 
 import service from './data.js';
@@ -488,12 +474,15 @@ export default {
     DxToolbar, ToolBarItem,
     DxDrawer,
     DxForm, DxButton, DxTagBox, DxItem,
-    DxDataGrid, DxColumn, DxGrouping, DxGroupPanel, DxPager, DxPaging, DxSearchPanel, DxEditing,
+    DxDataGrid, DxColumn, DxGrouping, DxGroupPanel, DxPager, DxPaging, DxSearchPanel, DxEditing, DxColumnChooser,
+    DxSorting,
     DxTreeView
   },
   computed: {
     fieldList: function() {
-      return Object.keys(this.dataSource[0]);
+//      return Object.keys(this.dataSource[0]);
+      return this.getDeepKeys(this.dataSource[0]);
+
     },
   },
   mounted () {
@@ -502,23 +491,123 @@ export default {
     this.myGrid = this.$refs.grid.instance;
     this.myTreeView = this.$refs.treeview.instance;
 
+//    this.myColumns=this.myGrid.option('columns');
     this.myGrid.option('columns', this.myColumns);
     this.myForm3.option('formData', this.myGrid.option());
     this.myForm3.option('visible',  this.myForm3.option('visible'));
     this.myForm2.option('formData', []);
     this.myForm3.option('visible',  !this.myForm3.option('visible'));
-    this.myTreeView.expandAll();
   },
   data() {
     const menuItems = service.getmenuItems();
+    const sales = service.getSales();
+
+/*
+    const rql = `{
+      $type: 'kpmShip',
+      id,
+      name,
+      version,
+      type,
+      ship: {
+        id,
+        version,
+        type,
+        name,
+        shipName,
+        shipKind: {
+          id,
+          version,
+          type,
+          name
+        },
+        shipFlag: {
+          id,
+          version,
+          type,
+          name
+        },
+        shipOwner: {
+        id,
+        version,
+        type,
+        name
+        }
+      },
+      smallShip: {
+        id,
+        version,
+        type,
+        name,
+        factoryNumber,
+        model
+      },
+      dateTime,
+      districtRegistry: {
+        id,
+        version,
+        type,
+        number,
+        name
+      },
+      port: {
+        id,
+        version,
+        type,
+        name
+      },
+      kpmDocsLink: {
+        id,
+        version,
+        type,
+        name,
+        docNumber,
+        docsNameKPM: {
+          id,
+          version,
+          type,
+          name
+        },
+        kpmForcesAndFacilitiesLink: {
+          id,
+          version,
+          type,
+          name
+        },
+        orgFoivDepartment: {
+          id,
+          version,
+          type,
+          name
+        },
+        subdivisionInteractOne: {
+          id,
+          version,
+          type,
+          name
+        },
+        inspector
+      },
+      actShipWatch: {
+        id,
+        version,
+        type,
+        name,
+        docMistakes
+      }
+    }`
+*/
+
     return {
-      myCols: [],
       menuItems,
+      sales,
+      isColumns: false,
       isNotColumnSelect: true,
       globalIndex: 1,
       selectionColumn: null,
       dataSource: menuItems,
       myColumns: [],
+      myTreeColumns: [],
       myGrid: null,
       myForm2: null,
       myForm3: null,
@@ -530,10 +619,12 @@ export default {
     };
   },
   methods: {
-    // Преобразование массива (DS) для приведения имеющихся коллекций для использования в гридах
     myShow() {
-      console.log(this.myColumns);
-      console.log(this.myTreeView.option());
+//      console.log(this.objectDeepKeys(this.sales[0]));
+//      console.log(this.getDeepKeys(this.sales[0]));
+      console.log(this.myGrid.getDataSource().items());
+
+//      console.log(this.myGrid);
     },
     findItemByKey(items, key) {
       for(let i = 0; i < items.length; i++) {
@@ -551,30 +642,28 @@ export default {
     },
     gridCellClick(e) {
       if (e.rowType === 'header') {
-        if (this.selectionColumn !== null) {
-          this.selectionColumn.headerCellTemplate = undefined;
-          this.myTreeView.unselectItem(this.selectionColumn.name);
-        }
-        this.selectionColumn = this.findItemByKey(this.myColumns, e.column.name);
-        this.myTreeView.selectItem(this.selectionColumn.name);
-        this.myForm2.option('formData', this.selectionColumn);
-        this.selectionColumn.headerCellTemplate = 'header-cell-template';
-        this.buttonText = this.selectionColumn.caption;
-        this.myGrid.option('columns', this.myColumns);
-        this.isNotColumnSelect = false;
+       if (this.selectionColumn !== null) {
+         this.selectionColumn.headerCellTemplate = undefined;
+       }
+       this.selectionColumn = this.findItemByKey(this.myColumns, e.column.name);
+       this.selectionColumn.headerCellTemplate = 'header-cell-template';
+       this.myGrid.option('columns', this.myColumns);
+       this.myTreeView.selectItem(this.selectionColumn.name);
+       this.myForm2.option('formData', this.selectionColumn);
+       this.buttonText = this.selectionColumn.caption;
+       this.myTreeView.expandAll();
+       this.isNotColumnSelect = false;
       }
     },
     selectItem(e) {
       if (this.selectionColumn !== null) {
         this.selectionColumn.headerCellTemplate = undefined;
-        this.myTreeView.unselectItem(this.selectionColumn.name);
       }
       this.selectionColumn = this.findItemByKey(this.myColumns, e.itemData.name);
-//      this.myTreeView.selectItem(this.selectionColumn.name);
-      this.myForm2.option('formData', this.selectionColumn);
       this.selectionColumn.headerCellTemplate = 'header-cell-template';
+      this.myForm2.option('formData', this.selectionColumn);
       this.buttonText = this.selectionColumn.caption;
-      this.myGrid.option('columns', this.myColumns);
+      this.myTreeView.expandAll();
       this.isNotColumnSelect = false;
     },
     addMenuItems(e) {
@@ -584,12 +673,12 @@ export default {
           beginGroup: true,
           text: 'Добавить колонку',
           icon: 'insertcolumnleft',
-          onItemClick: () =>  this.addNewColumn(null)
+          onItemClick: () =>  this.addNewColumn(null, undefined)
         });
         e.items.push({
           text: 'Добавить вложенную колонку',
           icon: 'insertcolumnright',
-          onItemClick: () => {this.addNewColumn(this.findItemByKey(this.myColumns, e.column.name))}
+          onItemClick: () => {this.addNewColumn(this.findItemByKey(this.myColumns, e.column.name), undefined)}
         });
         e.items.push({
           icon: 'trash',
@@ -601,7 +690,6 @@ export default {
     deleteColumn(column) {
       if (column.ownerName) {
         let parent = this.findItemByKey(this.myColumns, column.ownerName);
-        console.log(parent);
         let itemIndex = parent.columns.findIndex(el => el.name === column.name);
         if (this.selectionColumn && column.name === this.selectionColumn.name) {
           this.selectionColumn = null;
@@ -609,6 +697,9 @@ export default {
           this.myForm2.option('formData', []);
           this.buttonText = 'Параметры колонки';
         }
+        parent.columns.splice(itemIndex, 1);
+        parent = this.findItemByKey(this.myTreeColumns, column.ownerName);
+        itemIndex = parent.columns.findIndex(el => el.name === column.name);
         parent.columns.splice(itemIndex, 1);
       } else {
         let itemIndex = this.myColumns.findIndex(el => el.name === column.name);
@@ -619,12 +710,15 @@ export default {
           this.buttonText = 'Параметры колонки';
         }
         this.myColumns.splice(itemIndex, 1);
+        itemIndex = this.myTreeColumns.findIndex(el => el.name === column.name);
+        this.myTreeColumns.splice(itemIndex, 1);
       }
       this.myGrid.option('columns', this.myColumns);
-      this.myTreeView.option('dataSource', this.myColumns);
+      this.myTreeView.option('dataSource', this.myTreeColumns);
       this.myTreeView.expandAll();
+      this.isColumns = this.myColumns.length != 0;
     },
-    addNewColumn(parent) {
+    addNewColumn(parent, fieldName) {
       let g = {
         id: this.globalIndex,
         parentId: 0,
@@ -641,13 +735,12 @@ export default {
         allowSearch: true,
         allowSorting: true,
         autoExpandGroup: true,
-        buttons: [],
-        caption: 'Колонка ' + this.globalIndex,
+        caption: fieldName || 'Колонка ' + this.globalIndex,
         cellTemplate: undefined,
         columns: [],
         cssClass: undefined,
         customizeText: undefined,
-        dataField: 'column' + this.globalIndex,
+        dataField: fieldName,
         dataType: undefined,
         editCellTemplate: undefined,
         editorOptions: undefined,
@@ -686,23 +779,34 @@ export default {
         visibleIndex: undefined,
         width: undefined
       };
+      let t = {
+        id: g.id,
+        parentId: g.parentId,
+        name: g.name,
+        caption: g.caption,
+        columns: []
+      }
       if (parent === null) {
         this.myColumns.push(g);
+        this.myTreeColumns.push(t);
       } else {
         parent.isBand = true;
-//        g.ownerBand = parent.index;
         g.ownerBand = parent;
         g.parentId = parent.id;
         g.ownerName = parent.name;
         parent.columns.push(g);
+        t.parentId = g.parentId;
+        let treeParent = this.findItemByKey(this.myTreeColumns, parent.name);
+        treeParent.columns.push(t);
       }
       this.myGrid.option('columns', this.myColumns);
       this.globalIndex = this.globalIndex+1;
-      this.myTreeView.option('dataSource', this.myColumns);
+      this.myTreeView.option('dataSource', this.myTreeColumns);
       this.myTreeView.expandAll();
-      if (!this.isNotColumnSelect) {
+      if (this.selectionColumn) {
         this.myTreeView.selectItem(this.selectionColumn.name);
       }
+      this.isColumns = true;
     },
     showFormSetup() {
       this.myForm3.option('visible',  !this.myForm3.option('visible'));
@@ -712,15 +816,72 @@ export default {
     },
     formFieldDataChanged(e) {
       if (this.selectionColumn !== null && e.component === this.myForm2) {
-        let tmp = this.findItemByKey(this.myColumns, this.selectionColumn.name);
-        tmp[e.dataField] = e.value;
+        // if ((e.dataField === 'dataField') && (e.value)) {
+        //   this.findItemByKey(this.myColumns, this.selectionColumn.name)['caption'] = e.value;
+        //   this.findItemByKey(this.myTreeColumns, this.selectionColumn.name)['caption'] = e.value;
+        // }
+        this.findItemByKey(this.myColumns, this.selectionColumn.name)[e.dataField] = e.value;
+        if (e.dataField === 'caption') {
+          this.findItemByKey(this.myTreeColumns, this.selectionColumn.name)[e.dataField] = e.value;
+        }
         this.myGrid.option('columns', this.myColumns);
+        this.myTreeView.option('dataSource', this.myTreeColumns);
       }
       if (e.component === this.myForm3) {
         this.myGrid.option(e.dataField, e.value);
         this.myGrid.repaint();
       }
     },
+    columnsFromDatasource(grid) {
+      let cols = this.objectDeepKeys(grid.getDataSource().items()[0]);
+      for(let i = 0; i < cols.length; i++) {
+        this.addNewColumn(null, cols[i]);
+      }
+      return grid.option('columns');
+    },
+    objectDeepKeys(obj){
+      return Object.keys(obj)
+          .filter(key => obj[key] instanceof Object)
+          .map(key => this.objectDeepKeys(obj[key]).map(k => `${key}.${k}`))
+          .reduce((x, y) => x.concat(y), Object.keys(obj))
+    },
+    getDeepKeys(obj) {
+      let keys = [];
+      for(let key in obj) {
+        if(typeof obj[key] === "object" && !Array.isArray(obj[key])) {
+          let subkeys = this.getDeepKeys(obj[key]);
+          keys = keys.concat(subkeys.map(function(subkey) {
+            return key + "." + subkey;
+          }));
+        } else if(Array.isArray(obj[key])) {
+          for(let i=0;i<obj[key].length;i++){
+            let subkeys = this.getDeepKeys(obj[key][i]);
+            keys = keys.concat(subkeys.map(function(subkey) {
+              return key + "[" + i + "]" + "." + subkey;
+            }));
+          }
+        } else {
+          keys.push(key);
+        }
+      }
+      return keys;
+    },
+    columnsToTree(sourse, target) {
+      for(let i = 0; i < sourse.length; i++) {
+        let item = {
+          name: sourse[i].name,
+          caption: sourse[i].caption,
+          items: [],
+          isItems: sourse[i].isBand,
+          ownerBand: sourse[i].ownerBand,
+        }
+        target.push(item);
+        console.log(target);
+        if (sourse[i].columns) {
+          this.columnsToTree(sourse[i].columns, target[i].items);
+        }
+      }
+    }
   }
 };
 </script>
@@ -732,7 +893,9 @@ export default {
 
 .dx-header-row .cell-highlighted {
   color: red;
+  background-color: #eae6d2;
   font-style: italic;
+  text-align: center;
 }
 
 .form-container {
