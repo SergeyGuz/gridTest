@@ -43,7 +43,7 @@
         template="GridOptions"
     >
       <template #GridOptions>
-        <div>
+        <div class="container">
           <DxButton
               width="100%"
               icon="preferences"
@@ -57,6 +57,7 @@
                 ref="form3"
                 :col-count="1"
                 height="760"
+                width="100%"
                 :scrollingEnabled="true"
                 @field-data-changed="formFieldDataChanged"
             >
@@ -303,7 +304,7 @@
                 selection-mode="single"
                 :select-by-click="true"
                 show-check-boxes-mode="none"
-                :width="500"
+                width="100%"
                 key-expr="name"
                 items-expr="columns"
                 display-expr="caption"
@@ -325,19 +326,29 @@
                 ref="form2"
                 :col-count="1"
                 height="760"
-                width="540"
+                width="100%"
                 :scrollingEnabled="true"
                 @field-data-changed="formFieldDataChanged"
             >
-              <DxItem item-type="group" :visible="true" :alignItemLabels="false" :col-count=1 >
+              <DxItem item-type="group" :visible="true" caption="Поле данных" :alignItemLabels="false" :col-count=1 >
                 <DxItem item-type="simple" data-field='dataField' editor-type='dxSelectBox' :label= "{text: 'Имя поля' }" :editor-options= "{searchEnabled: true, items: fieldList }"/>
                 <DxItem item-type="simple" data-field='dataType' editor-type='dxSelectBox' :label= "{text: 'Тип поля' }" :editor-options=" {items: [undefined, 'string', 'number', 'date', 'boolean', 'object', 'datetime']}"/>
                 <DxItem item-type="simple" data-field='caption' editor-type="dxTextBox" :label= "{text: 'Заголовок колонки' }"/>
+              </DxItem>
+              <DxItem item-type="group" :visible="true" caption="Оформление колонки" :alignItemLabels="false" :col-count=1 >
                 <DxItem item-type="simple" data-field='alignment' editor-type='dxSelectBox' :label= "{text: 'Выравнивание' }" :editor-options=" {items: [undefined, 'center', 'left', 'right']}"/>
                 <DxItem item-type="simple" data-field='cellTemplate' editor-type="dxTextBox" :label= "{text: 'Шаблон ячейки' }"/>
                 <DxItem item-type="simple" data-field='headerCellTemplate' :label= "{text: 'Шаблон заголовка' }"/>
+                <DxItem item-type="simple" data-field='format' :label= "{text: 'Формат ячейки' }"
+                        editor-type='dxSelectBox'
+                        :editor-options=" {items: [undefined, 'billions', 'currency', 'day', 'decimal', 'exponential', 'fixedPoint', 'largeNumber',
+                       'longDate', 'longTime', 'millions', 'millisecond', 'month', 'monthAndDay', 'monthAndYear', 'percent', 'quarter',
+                        'quarterAndYear', 'shortDate', 'shortTime', 'thousands', 'trillions', 'year', 'dayOfWeek', 'hour', 'longDateLongTime', 'minute', 'second', 'shortDateShortTime']}"/>
+                <DxItem item-type="simple" data-field='cssClass' editor-type="dxTextBox" :label= "{text: 'Имя стиля (CSS)' }"/>
+                <DxItem item-type="simple" data-field='width' editor-type="dxTextBox" :label= "{text: 'Ширина колонки' }"/>
+                <DxItem item-type="simple" data-field='minWidth' editor-type="dxNumberBox" :label= "{text: 'Минимальная ширина' }"/>
               </DxItem>
-              <DxItem item-type="group" :visible="true" caption="Разрешения" :col-count=2 >
+              <DxItem item-type="group" :visible="true" caption="Разрешения для колонки" :col-count=2 >
                 <DxItem item-type="simple" data-field='allowEditing' editor-type="dxCheckBox" :label= "{text: 'Редактировать' }"/>
                 <DxItem item-type="simple" data-field='allowExporting' editor-type="dxCheckBox" :label= "{text: 'Экспортировать' }"/>
                 <DxItem item-type="simple" data-field='allowFiltering' editor-type="dxCheckBox" :label= "{text: 'Фильтровать' }"/>
@@ -351,58 +362,48 @@
                 <DxItem item-type="simple" data-field='allowSorting' editor-type="dxCheckBox" :label= "{text: 'Сортировать' }"/>
                 <DxItem item-type="simple" data-field='autoExpandGroup' editor-type="dxCheckBox" :label= "{text: 'Раскрывать группу' }"/>
                 <DxItem item-type="simple" data-field='encodeHtml' editor-type="dxCheckBox" :label= "{text: 'HTML как текст ' }"/>
-                <DxItem item-type="simple" data-field='showEditorAlways' editor-type="dxCheckBox" :label= "{text: 'Показывать в редакторе' }"/>
-                <DxItem item-type="simple" data-field='showInColumnChooser' editor-type="dxCheckBox" :label= "{text: 'Показывать в Shooser' }"/>
-                <DxItem item-type="simple" data-field='showWhenGrouped' editor-type="dxCheckBox" :label= "{text: 'Показывать при группировании' }"/>
-                <DxItem item-type="simple" data-field='visible' editor-type="dxCheckBox" :label= "{text: 'Видимая колонка' }"/>
+                <DxItem item-type="simple" data-field='showEditorAlways' editor-type="dxCheckBox" :label= "{text: 'Показ в редакторе' }"/>
+                <DxItem item-type="simple" data-field='showInColumnChooser' editor-type="dxCheckBox" :label= "{text: 'Видеть в Shooser' }"/>
+                <DxItem item-type="simple" data-field='showWhenGrouped' editor-type="dxCheckBox" :label= "{text: 'Видеть при группировке' }"/>
+                <DxItem item-type="simple" data-field='visible' editor-type="dxCheckBox" :label= "{text: 'Видимость' }"/>
+                <DxItem item-type="simple" data-field='renderAsync' editor-type="dxCheckBox" :label= "{text: 'Рисовать после всех' }"/>
               </DxItem>
-<!--              <DxItem item-type="simple" data-field='buttons' template="buttons"/>-->
-
-              <DxItem item-type="simple" data-field='cssClass' editor-type="dxTextBox"/>
-
-              <DxItem item-type="simple" data-field='falseText' editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field='filterOperations'/>
-              <DxItem item-type="simple" data-field='filterType' editor-type='dxSelectBox' :editor-options=" {items: ['exclude', 'include']}"/>
-              <DxItem item-type="simple" data-field='filterValue'/>
-              <DxItem item-type="simple" data-field='filterValues'/>
-              <DxItem item-type="simple" data-field='fixed' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='fixedPosition' editor-type='dxSelectBox' :editor-options=" {items: ['left', 'right']}"/>
-              <DxItem item-type="simple" data-field='format'
-                      editor-type='dxSelectBox'
-                      :editor-options=" {items: [undefined, 'billions', 'currency', 'day', 'decimal', 'exponential', 'fixedPoint', 'largeNumber',
-                       'longDate', 'longTime', 'millions', 'millisecond', 'month', 'monthAndDay', 'monthAndYear', 'percent', 'quarter',
-                        'quarterAndYear', 'shortDate', 'shortTime', 'thousands', 'trillions', 'year', 'dayOfWeek', 'hour', 'longDateLongTime', 'minute', 'second', 'shortDateShortTime']}"/>
-              <DxItem item-type="simple" data-field='groupCellTemplate'/>
-              <DxItem item-type="simple" data-field='groupIndex' editor-type="dxNumberBox"/>
-
-              <DxItem item-type="simple" data-field='headerFilter.allowSearch' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='headerFilter.dataSource'/>
-              <DxItem item-type="simple" data-field='headerFilter.groupInterval'/>
-              <DxItem item-type="simple" data-field='headerFilter.height' editor-type="dxNumberBox"/>
-              <DxItem item-type="simple" data-field='headerFilter.searchMode' editor-type='dxSelectBox' :editor-options=" {items: ['contains', 'startswith', 'equals']}"/>
-              <DxItem item-type="simple" data-field='headerFilter.width' editor-type="dxNumberBox"/>
-
-              <DxItem item-type="simple" data-field='hidingPriority' editor-type="dxNumberBox"/>
-<!--              <DxItem item-type="simple" data-field='isBand' editor-type="dxCheckBox" :editor-options="{disabled: true}"/>-->
-
-              <DxItem item-type="simple" data-field='lookup.allowClearing' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='lookup.dataSource'/>
-              <DxItem item-type="simple" data-field='lookup.displayExpr' editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field='lookup.valueExpr' editor-type="dxTextBox"/>
-
-              <DxItem item-type="simple" data-field='minWidth' editor-type="dxNumberBox"/>
-<!--              <DxItem item-type="simple" data-field='name' editor-type="dxTextBox" :editor-options="{disabled: true}"/>-->
-<!--              <DxItem item-type="simple" data-field='ownerBand' editor-type="dxNumberBox" :editor-options="{disabled: true}"/>-->
-              <DxItem item-type="simple" data-field='renderAsync' editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field='selectedFilterOperation'/>
-<!--              <DxItem item-type="simple" data-field='sortIndex' editor-type="dxNumberBox"/>-->
-              <DxItem item-type="simple" data-field='sortOrder' editor-type='dxSelectBox' :editor-options=" {items: [undefined, 'asc', 'desc']}"/>
-              <DxItem item-type="simple" data-field='trueText' editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field='type' editor-type='dxSelectBox' :editor-options=" {items: [undefined,'adaptive', 'buttons', 'detailExpand', 'groupExpand', 'selection', 'drag']}"/>
-              <DxItem item-type="simple" data-field='validationRules'/>
-<!--              <DxItem item-type="simple" data-field='visibleIndex' editor-type="dxNumberBox"/>-->
-              <DxItem item-type="simple" data-field='width' editor-type="dxTextBox"/>
-
+              <DxItem item-type="group" :visible="true" caption="Настройка фильтра" :alignItemLabels="false" :col-count=1 >
+                <DxItem item-type="simple" data-field='filterOperations' :label= "{text: 'Доступные операции фильтрации' }"/>
+                <DxItem item-type="simple" data-field='filterType'  :label= "{text: 'Тип фильтрации' }" editor-type='dxSelectBox' :editor-options=" {items: ['exclude', 'include']}"/>
+                <DxItem item-type="simple" data-field='filterValue' :label= "{text: 'Значение фильтра' }"/>
+                <DxItem item-type="simple" data-field='filterValues' :label= "{text: 'Значения (массив) фильтра' }"/>
+                <DxItem item-type="simple" data-field='selectedFilterOperation' :label= "{text: 'Операции фильтрации' }"/>
+                <DxItem item-type="simple" data-field='headerFilter.allowSearch'  :label= "{text: 'Поиск в фильтре заголовка' }" editor-type="dxCheckBox"/>
+                <DxItem item-type="simple" data-field='headerFilter.dataSource'  :label= "{text: 'Источник данных фильтра заголовка' }"/>
+                <DxItem item-type="simple" data-field='headerFilter.groupInterval'  :label= "{text: 'Значение для группирования' }"/>
+                <DxItem item-type="simple" data-field='headerFilter.height' editor-type="dxNumberBox" :label= "{text: 'Высота фильтра заголовка' }"/>
+                <DxItem item-type="simple" data-field='headerFilter.searchMode'  :label= "{text: 'Операция сравнения' }" editor-type='dxSelectBox' :editor-options=" {items: ['contains', 'startswith', 'equals']}"/>
+                <DxItem item-type="simple" data-field='headerFilter.width' editor-type="dxNumberBox" :label= "{text: 'Ширина фильтра заголовка' }"/>
+              </DxItem>
+              <DxItem item-type="group" :visible="true" caption="Настройка столбца подстановки" :alignItemLabels="false" :col-count=1 >
+                <DxItem item-type="simple" data-field='lookup.allowClearing' editor-type="dxCheckBox" :label= "{text: 'Показать кнопку очистки' }"/>
+                <DxItem item-type="simple" data-field='lookup.dataSource' :label= "{text: 'Источник данных' }"/>
+                <DxItem item-type="simple" data-field='lookup.displayExpr' editor-type="dxTextBox" :label= "{text: 'Поле для отображения' }"/>
+                <DxItem item-type="simple" data-field='lookup.valueExpr' editor-type="dxTextBox" :label= "{text: 'Поле для значения' }"/>
+              </DxItem>
+              <DxItem item-type="group" :visible="true" caption="Другие настройки" :alignItemLabels="false" :col-count=1 >
+                <DxItem item-type="simple" data-field='fixed' editor-type="dxCheckBox" :label= "{text: 'Фиксировать колонку' }"/>
+                <DxItem item-type="simple" data-field='fixedPosition'  :label= "{text: 'Позиция фиксации' }" editor-type='dxSelectBox' :editor-options=" {items: ['left', 'right']}"/>
+                <DxItem item-type="simple" data-field='groupCellTemplate'  :label= "{text: 'Шаблон ячейки группы' }"/>
+                <DxItem item-type="simple" data-field='groupIndex' editor-type="dxNumberBox" :label= "{text: 'Индекс группы' }"/>
+                <DxItem item-type="simple" data-field='hidingPriority' editor-type="dxNumberBox" :label= "{text: 'Номер приоритета скрытия' }"/>
+  <!--              <DxItem item-type="simple" data-field='isBand' editor-type="dxCheckBox" :editor-options="{disabled: true}"/>-->
+  <!--              <DxItem item-type="simple" data-field='name' editor-type="dxTextBox" :editor-options="{disabled: true}"/>-->
+  <!--              <DxItem item-type="simple" data-field='ownerBand' editor-type="dxNumberBox" :editor-options="{disabled: true}"/>-->
+                <DxItem item-type="simple" data-field='validationRules' :label= "{text: 'Правила проверки значения' }" editor-type='dxSelectBox' :editor-options=" {items: [undefined,'RequiredRule', 'NumericRule', 'RangeRule', 'StringLengthRule', 'CustomRule', 'CompareRule', 'PatternRule', 'EmailRule', 'AsyncRule']}"/>
+                <DxItem item-type="simple" data-field='sortOrder' editor-type='dxSelectBox' :label= "{text: 'Направление сортировки' }" :editor-options=" {items: [undefined, 'asc', 'desc']}"/>
+                <DxItem item-type="simple" data-field='sortIndex' editor-type="dxNumberBox" :label= "{text: 'Индекс сортировки' }"/>
+                <DxItem item-type="simple" data-field='trueText' editor-type="dxTextBox" :label= "{text: 'Текст значения TRUE' }"/>
+                <DxItem item-type="simple" data-field='falseText' editor-type="dxTextBox" :label= "{text: 'Текст значения FALSE' }"/>
+                <DxItem item-type="simple" data-field='type' editor-type='dxSelectBox'  :label= "{text: 'Тип колонки' }" :editor-options=" {items: [undefined,'adaptive', 'buttons', 'detailExpand', 'groupExpand', 'selection', 'drag']}"/>
+  <!--              <DxItem item-type="simple" data-field='visibleIndex' editor-type="dxNumberBox"/>-->
+              </DxItem>
             </DxForm>
           </div>
         </div>
@@ -661,6 +662,7 @@ export default {
       }
       this.selectionColumn = this.findItemByKey(this.myColumns, e.itemData.name);
       this.selectionColumn.headerCellTemplate = 'header-cell-template';
+      this.myGrid.option('columns', this.myColumns);
       this.myForm2.option('formData', this.selectionColumn);
       this.buttonText = this.selectionColumn.caption;
       this.myTreeView.expandAll();
@@ -722,7 +724,7 @@ export default {
       let g = {
         id: this.globalIndex,
         parentId: 0,
-        alignment: undefined,
+        alignment: 'left',
         allowEditing: true,
         allowExporting: true,
         allowFiltering: true,
@@ -746,13 +748,13 @@ export default {
         editorOptions: undefined,
         encodeHtml: true,
         falseText: 'Нет',
-        filterOperations: undefined,
+        filterOperations: ['contains','notcontains','startswith','endswith','=','<>'],
         filterType: 'include',
         filterValue: undefined,
         filterValues: undefined,
         fixed: false,
         fixedPosition: undefined,
-        format: '',
+        format: undefined,
         formItem: undefined,
         groupCellTemplate: undefined,
         groupIndex: undefined,
@@ -815,17 +817,13 @@ export default {
       this.myForm2.option('visible',  !this.myForm2.option('visible'));
     },
     formFieldDataChanged(e) {
-      if (this.selectionColumn !== null && e.component === this.myForm2) {
-        // if ((e.dataField === 'dataField') && (e.value)) {
-        //   this.findItemByKey(this.myColumns, this.selectionColumn.name)['caption'] = e.value;
-        //   this.findItemByKey(this.myTreeColumns, this.selectionColumn.name)['caption'] = e.value;
-        // }
-        this.findItemByKey(this.myColumns, this.selectionColumn.name)[e.dataField] = e.value;
-        if (e.dataField === 'caption') {
-          this.findItemByKey(this.myTreeColumns, this.selectionColumn.name)[e.dataField] = e.value;
-        }
-        this.myGrid.option('columns', this.myColumns);
-        this.myTreeView.option('dataSource', this.myTreeColumns);
+      if (this.selectionColumn !== null && e.component === this.myForm2 && this.myGrid.columnOption(this.selectionColumn.name, e.dataField) != e.value) {
+          this.selectionColumn[e.dataField] = e.value;
+          if (e.dataField === 'caption') {
+            this.findItemByKey(this.myTreeColumns, this.selectionColumn.name)[e.dataField] = e.value;
+          }
+          this.myGrid.option('columns', this.myColumns);
+          this.myTreeView.option('dataSource', this.myTreeColumns);
       }
       if (e.component === this.myForm3) {
         this.myGrid.option(e.dataField, e.value);
@@ -896,6 +894,10 @@ export default {
   background-color: #eae6d2;
   font-style: italic;
   text-align: center;
+}
+
+.container {
+width: 500px;
 }
 
 .form-container {
