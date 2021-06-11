@@ -59,75 +59,91 @@
                 height="760"
                 width="100%"
                 :scrollingEnabled="true"
+                :alignItemLabelsInAllGroups="false"
                 @field-data-changed="formFieldDataChanged"
             >
               <DxTagBox :visible='false'/>
-              <DxItem item-type="simple" data-field="accessKey" editor-type="dxTextBox"/>
-<!--              <DxItem item-type="simple" data-field="accessKey" editor-type="dxTextBox" :label= "{text: 'Проба'}"/>-->
-              <DxItem item-type="simple" data-field="activeStateEnabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="allowColumnReordering" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="allowColumnResizing" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="autoNavigateToFocusedRow" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="cacheEnabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="cellHintEnabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="columnAutoWidth" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="columnChooser.allowSearch" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="columnChooser.emptyPanelText" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="columnChooser.enabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="columnChooser.height" editor-type="dxNumberBox"/>
-              <DxItem item-type="simple" data-field="columnChooser.mode" editor-type='dxSelectBox' :editor-options=" {items: ['dragAndDrop', 'select']}"/>
-              <DxItem item-type="simple" data-field="columnChooser.searchTimeout" editor-type="dxNumberBox"/>
-              <DxItem item-type="simple" data-field="columnChooser.title" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="columnChooser.width" editor-type="dxNumberBox"/>
-              <DxItem item-type="simple" data-field="columnFixing.enabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="columnFixing.texts.fix" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="columnFixing.texts.leftPosition" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="columnFixing.texts.rightPosition" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="columnFixing.texts.unfix" editor-type="dxTextBox"/>
 
-              <DxItem item-type="simple" data-field="columnHidingEnabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="columnMinWidth" editor-type="dxNumberBox"/>
-              <DxItem item-type="simple" data-field="columnResizingMode" editor-type='dxSelectBox' :editor-options=" {items: ['nextColumn', 'widget']}"/>
-              <DxItem item-type="simple" data-field="columnWidth" editor-type="dxNumberBox"/>
-              <DxItem item-type="simple" data-field="dataSource" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="dateSerializationFormat" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="disabled" editor-type="dxCheckBox"/>
+<!--              <DxItem item-type="simple" data-field="accessKey" editor-type="dxTextBox"/>-->
+<!--              <DxItem item-type="simple" data-field="activeStateEnabled" editor-type="dxCheckBox"/>-->
+              <DxItem item-type="simple" data-field="dataSourceList" editor-type='dxSelectBox' :label= "{text: 'Источник данных' }"
+                      :editor-options= "{onValueChanged: (e) => { dsChange(e.value) }, searchEnabled: true,items: [undefined, 'dsMenu', 'dsSales']}"/>
+              <DxItem item-type="group" :visible="true" caption="Разрешения для таблицы" :alignItemLabels="true" :col-count=1 >
+                <DxItem item-type="simple" data-field="allowColumnReordering" editor-type="dxCheckBox" :label= "{text: 'Переставлять столбцы' }"/>
+                <DxItem item-type="simple" data-field="allowColumnResizing" editor-type="dxCheckBox" :label= "{text: 'Изменять размер столбцов' }"/>/>
+                <DxItem item-type="simple" data-field="cacheEnabled" editor-type="dxCheckBox" :label= "{text: 'Кэшировать данные' }"/>
+                <DxItem item-type="simple" data-field="cellHintEnabled" editor-type="dxCheckBox" :label= "{text: 'Подсказка для усеченных данных' }"/>
+                <DxItem item-type="simple" data-field="columnAutoWidth" editor-type="dxCheckBox" :label= "{text: 'Авто ширина колонок' }"/>
+                <DxItem item-type="simple" data-field="columnHidingEnabled" editor-type="dxCheckBox" :label= "{text: 'Автоскрытие колонок' }"/>
+                <DxItem item-type="simple" data-field="disabled" editor-type="dxCheckBox" :label= "{text: 'Запретить таблицу' }"/>
+                <DxItem item-type="simple" data-field="errorRowEnabled" editor-type="dxCheckBox" :label= "{text: 'Отображать с ошибкой' }"/>
+              </DxItem>
+              <DxItem item-type="group" :visible="true" caption="Селектор столбцов (columnChooser)" :col-count=1 >
+                <DxItem item-type="group" :visible="true" :col-count=2 >
+                  <DxItem item-type="simple" data-field="columnChooser.enabled" editor-type="dxCheckBox" :label= "{text: 'Разрешить' }"/>
+                  <DxItem item-type="simple" data-field="columnChooser.allowSearch" editor-type="dxCheckBox" :label= "{text: 'Поиск' }"/>
+                </DxItem>
+                <DxItem item-type="simple" data-field="columnChooser.emptyPanelText" editor-type="dxTextBox" :label= "{text: 'Текст в пустом селекторе' }"/>
+                <DxItem item-type="simple" data-field="columnChooser.height" editor-type="dxNumberBox" :label= "{text: 'Высота окна селектора' }"/>
+                <DxItem item-type="simple" data-field="columnChooser.mode" editor-type='dxSelectBox' :label= "{text: 'Режим управления столбцами' }" :editor-options=" {items: ['dragAndDrop', 'select']}"/>
+                <DxItem item-type="simple" data-field="columnChooser.searchTimeout" editor-type="dxNumberBox" :label= "{text: 'Задержка для строки поиска' }"/>
+                <DxItem item-type="simple" data-field="columnChooser.title" editor-type="dxTextBox" :label= "{text: 'Заголовок селектора колонок'}"/>
+                <DxItem item-type="simple" data-field="columnChooser.width" editor-type="dxNumberBox" :label= "{text: 'Ширина окна селектора' }"/>
+              </DxItem>
+              <DxItem item-type="group" :visible="true" caption="Фиксация столбца" :col-count=1 >
+                <DxItem item-type="simple" data-field="columnFixing.enabled" editor-type="dxCheckBox" :label= "{text: 'Разрешить фиксацию' }"/>
+                <DxItem item-type="simple" data-field="columnFixing.texts.fix" editor-type="dxTextBox" :label= "{text: 'Текст - зафиксировать столбец' }"/>
+                <DxItem item-type="simple" data-field="columnFixing.texts.leftPosition" editor-type="dxTextBox" :label= "{text: 'Текст - зафиксировать слева' }"/>
+                <DxItem item-type="simple" data-field="columnFixing.texts.rightPosition" editor-type="dxTextBox" :label= "{text: 'Текст - зафиксировать справа' }"/>
+                <DxItem item-type="simple" data-field="columnFixing.texts.unfix" editor-type="dxTextBox" :label= "{text: 'Текст - открепить' }"/>
+              </DxItem>
 
-              <DxItem item-type="group" :visible="true" caption="Editing" >
-                  <DxItem item-type="simple" data-field="editing.allowAdding" editor-type="dxCheckBox"/>
-                  <DxItem item-type="simple" data-field="editing.allowDeleting" editor-type="dxCheckBox"/>
-                  <DxItem item-type="simple" data-field="editing.allowUpdating" editor-type="dxCheckBox"/>
-                  <DxItem item-type="simple" data-field="editing.confirmDelete" editor-type="dxCheckBox"/>
-                  <DxItem item-type="simple" data-field="editing.editColumnName" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.mode" editor-type='dxSelectBox' :editor-options=" {items: ['batch', 'cell', 'row', 'form', 'popup']}"/>
-                  <DxItem item-type="simple" data-field="editing.refreshMode" editor-type='dxSelectBox' :editor-options=" {items: ['full', 'reshape', 'repaint']}"/>
-                  <DxItem item-type="simple" data-field="editing.selectTextOnEditStart" editor-type="dxCheckBox"/>
-                  <DxItem item-type="simple" data-field="editing.startEditAction" editor-type='dxSelectBox' :editor-options=" {items: ['click', 'dblClick']}"/>
 
-                  <DxItem item-type="simple" data-field="editing.texts.addRow" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.cancelAllChanges" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.cancelRowChanges" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.confirmDeleteMessage" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.confirmDeleteTitle" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.deleteRow" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.editRow" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.saveAllChanges" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.saveRowChanges" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.undeleteRow" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.validationCancelChanges" editor-type="dxTextBox"/>
-                  <DxItem item-type="simple" data-field="editing.texts.useIcons" editor-type="dxTextBox"/>
+              <DxItem item-type="simple" data-field="columnWidth" editor-type="dxNumberBox" :label= "{text: 'Ширина всех столбцов' }"/>
+              <DxItem item-type="simple" data-field="columnMinWidth" editor-type="dxNumberBox" :label= "{text: 'Минимальная ширина столбцов' }"/>
+              <DxItem item-type="simple" data-field="columnResizingMode" editor-type='dxSelectBox' :label= "{text: 'Режим изменения размера столбцов' }" :editor-options=" {items: ['nextColumn', 'widget']}"/>
+<!--              <DxItem item-type="simple" data-field="dateSerializationFormat" editor-type="dxTextBox"/>-->
+
+
+              <DxItem item-type="group" :visible="true" caption="Режим редактирования" :col-count=1 >
+                <DxItem item-type="simple" data-field="editing.allowAdding" editor-type="dxCheckBox" :label= "{text: 'Разрешить добавление' }"/>
+                <DxItem item-type="simple" data-field="editing.allowDeleting" editor-type="dxCheckBox" :label= "{text: 'Разрешить удаление' }"/>
+                <DxItem item-type="simple" data-field="editing.allowUpdating" editor-type="dxCheckBox" :label= "{text: 'Разрешить изменение' }"/>
+                <DxItem item-type="simple" data-field="editing.confirmDelete" editor-type="dxCheckBox"  :label= "{text: 'Подтверждать удаление' }"/>
+                <DxItem item-type="simple" data-field="editing.texts.useIcons" editor-type="dxCheckBox" :label= "{text: 'Использовать значки' }"/>
+                <DxItem item-type="simple" data-field="editing.selectTextOnEditStart" editor-type="dxCheckBox" :label= "{text: 'Выделять текст' }"/>
+<!--                  <DxItem item-type="simple" data-field="editing.editColumnName" editor-type="dxTextBox" :label= "{text: 'Разрешить добавление' }"/>-->
+                <DxItem item-type="simple" data-field="editing.mode" editor-type='dxSelectBox' :label= "{text: 'Режим редактирования' }" :editor-options=" {items: ['batch', 'cell', 'row', 'form', 'popup']}"/>
+                <DxItem item-type="simple" data-field="editing.refreshMode" editor-type='dxSelectBox'  :label= "{text: 'Режим обновления' }" :editor-options=" {items: ['full', 'reshape', 'repaint']}"/>
+
+                <DxItem item-type="simple" data-field="editing.startEditAction" editor-type='dxSelectBox' :label= "{text: 'Переход к редактированию' }" :editor-options=" {items: ['click', 'dblClick']}"/>
+
+                <DxItem item-type="group" :visible="true" caption="Тексты" >
+                  <DxItem item-type="simple" data-field="editing.texts.addRow" editor-type="dxTextBox" :label= "{location: 'top', text: 'Добавить новую запись' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.cancelAllChanges" editor-type="dxTextBox" :label= "{location: 'top', text: 'Отменить все изменения' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.cancelRowChanges" editor-type="dxTextBox" :label= "{location: 'top', text: 'Отменить изменения в записи' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.confirmDeleteMessage" editor-type="dxTextBox" :label= "{location: 'top', text: 'Запрос подтверждения удаления' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.confirmDeleteTitle" editor-type="dxTextBox" :label= "{location: 'top', text: 'Титул подтверждения удаления' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.deleteRow" editor-type="dxTextBox" :label= "{location: 'top', text: 'Удалить запись' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.editRow" editor-type="dxTextBox" :label= "{location: 'top', text: 'Редактировать запись' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.saveAllChanges" editor-type="dxTextBox" :label= "{location: 'top', text: 'Сохранить все изменения' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.saveRowChanges" editor-type="dxTextBox" :label= "{location: 'top', text: 'Сохранить изменения записи' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.undeleteRow" editor-type="dxTextBox" :label= "{location: 'top', text: 'Отменить удаление записи' }"/>
+                  <DxItem item-type="simple" data-field="editing.texts.validationCancelChanges" editor-type="dxTextBox" :label= "{location: 'top', text: 'Подсказка для кнопки отмены' }"/>
+                </DxItem>
               </dxItem>
-              <DxItem item-type="simple" data-field="errorRowEnabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="export.allowExportSelectedData" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="export.enabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="export.excelFilterEnabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="export.excelWrapTextEnabled" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="export.fileName" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="export.ignoreExcelErrors" editor-type="dxCheckBox"/>
-              <DxItem item-type="simple" data-field="export.proxyUrl" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="export.texts.exportAll" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="export.texts.exportSelectedRows" editor-type="dxTextBox"/>
-              <DxItem item-type="simple" data-field="export.texts.exportTo" editor-type="dxTextBox"/>
+              <DxItem item-type="group" :visible="true" caption="Экспорт" :col-count=1 >
+                <DxItem item-type="simple" data-field="export.enabled" editor-type="dxCheckBox" :label= "{text: 'Разрешить' }"/>
+                <DxItem item-type="simple" data-field="export.allowExportSelectedData" editor-type="dxCheckBox" :label= "{text: 'Только выбранные строки' }"/>
+                <DxItem item-type="simple" data-field="export.excelFilterEnabled" editor-type="dxCheckBox" :label= "{text: 'Вкл. фильтрацию Excel' }"/>
+                <DxItem item-type="simple" data-field="export.excelWrapTextEnabled" editor-type="dxCheckBox" :label= "{text: 'Вкл. перенос для Excel' }"/>
+                <DxItem item-type="simple" data-field="export.fileName" editor-type="dxTextBox" :label= "{text: 'Имя файла' }"/>
+                <DxItem item-type="simple" data-field="export.ignoreExcelErrors" editor-type="dxCheckBox" :label= "{text: 'Игнорировать ошибки' }"/>
+<!--                <DxItem item-type="simple" data-field="export.proxyUrl" editor-type="dxTextBox"/>-->
+                <DxItem item-type="simple" data-field="export.texts.exportAll" editor-type="dxTextBox" :label= "{text: 'Текст: экспортировать все' }"/>
+                <DxItem item-type="simple" data-field="export.texts.exportSelectedRows" editor-type="dxTextBox" :label= "{text: 'Текст: экспортировать выделенные' }"/>
+                <DxItem item-type="simple" data-field="export.texts.exportTo" editor-type="dxTextBox" :label= "{text: 'Подсказка кнопки экспорт' }"/>
+              </dxItem>
 
               <DxItem item-type="simple" data-field="filterPanel.customizeText" editor-type="dxTextBox"/>
               <DxItem item-type="simple" data-field="filterPanel.filterEnabled" editor-type="dxCheckBox"/>
@@ -411,20 +427,231 @@
       <div class="form-container">
         <DxDataGrid
             id="grid"
-            :visible="false"
+            :data-source='sales'
+            :show-borders="true"
+            :showRowLines="true"
+            :visible="true"
         >
           <DxEditing
-              :allow-updating="true"
-              :allow-deleting="true"
-              :allow-adding="true"
+              :allow-updating="false"
+              :allow-deleting="false"
+              :allow-adding="false"
               mode="form"
           />
           <DxColumn
               data-field="id"
-              caption="Id"
+              caption="Номер"
               header-cell-template=""
               :visible="true"
           />
+          <DxColumn
+              data-field="ship.name"
+              caption="Судно"
+              header-cell-template=""
+              :visible="true"
+          />
+          <DxColumn
+              data-field="port.name"
+              caption="Порт"
+              :visible="true"
+          />
+          <DxColumn
+              data-field="kpmDocsLink"
+              caption="КПМ"
+              cell-template="cell-template"
+              :visible="true"
+              width="800"
+          />
+          <DxColumn
+              data-field="actShipWatch.name"
+              caption="actShipWatch"
+              :visible="true"
+          />
+          <template #cell-template="{ data }">
+            <div class="cell-no-border">
+              <DxDataGrid
+                  id="grid2"
+                  :data-source=data.value
+                  :show-borders="false"
+                  :showColumnHeaders="false"
+                  :showRowLines="true"
+                  :column-auto-width="false"
+                  :wordWrapEnabled="true"
+                  :visible="true"
+                  width="800"
+              >
+                <DxColumn
+                    data-field="docNumber"
+                    caption='№ Документа'
+                    header-cell-template=""
+                    :visible="true"
+                    width="100"
+                />
+                <DxColumn
+                    data-field="docsNameKPM.name"
+                    caption='Наименование документа'
+                    header-cell-template=""
+                    :visible="true"
+                    width="300"
+                />
+                <DxColumn
+                    data-field="kpmForcesAndFacilitiesLink"
+                    caption='kpmForcesAndFacilitiesLink'
+                    cell-template="cell2-template"
+                    :visible="true"
+                    width="250"
+                />
+                <DxColumn
+                    data-field="orgFoivDepartment.name"
+                    caption='docsNameKPM.name'
+                    header-cell-template=""
+                    :visible="true"
+                    width="100"
+
+                />
+                <template #cell2-template="{ data }">
+                  <div>
+                    <DxDataGrid
+                        id="grid3"
+                        :data-source=data.value
+                        :show-borders="false"
+                        :showColumnHeaders="false"
+                        :showRowLines="true"
+                        :column-auto-width="false"
+                        :wordWrapEnabled="true"
+                        :visible="true"
+                        width="250"
+                    >
+                      <DxColumn
+                          data-field="name"
+                          caption='Наименование'
+                          header-cell-template=""
+                          :visible="true"
+                          width="70"
+                      />
+                      <DxColumn
+                          data-field="version"
+                          caption='Версия'
+                          data-type="datetime"
+                          header-cell-template=""
+                          :visible="true"
+                          width="170"
+                      />
+                    </DxDataGrid>
+                  </div>
+                </template>
+              </DxDataGrid>
+            </div>
+          </template>
+        </DxDataGrid>
+        <DxDataGrid
+            id="grid4"
+            :data-source='plan'
+            :show-borders="true"
+            :showRowLines="true"
+            :visible="true"
+        >
+          <DxColumn
+              data-field="name"
+              caption="Наименование"
+              header-cell-template=""
+              :visible="true"
+          />
+          <DxColumn
+              data-field="zkPUOrgstructureLink.name"
+              caption="Подразделение"
+              header-cell-template=""
+              :visible="true"
+          />
+          <DxColumn
+              data-field="planEventStatusLink.name"
+              caption="Статус"
+              :visible="true"
+          />
+          <DxColumn
+              data-field="oudPlanningPeriodLink"
+              caption="oudPlanningPeriodLink"
+              cell-template="cell-template"
+              :visible="true"
+              width="800"
+          />
+          <template #cell-template="{ data }">
+            <div class="cell-no-border">
+              <DxDataGrid
+                  id="grid5"
+                  :data-source=data.value
+                  :show-borders="false"
+                  :showColumnHeaders="false"
+                  :showRowLines="true"
+                  :column-auto-width="false"
+                  :wordWrapEnabled="true"
+                  :visible="true"
+                  width="800"
+              >
+                <DxColumn
+                    data-field="version"
+                    caption='Версия'
+                    data-type="datetime"
+                    header-cell-template=""
+                    :visible="true"
+                    width="160"
+
+                />
+                <DxColumn
+                    data-field="reportingYear"
+                    caption='Отчетный год'
+                    header-cell-template=""
+                    :visible="true"
+                    width="70"
+                />
+                <DxColumn
+                    data-field="planPeriodAllLink.name"
+                    caption='Период'
+                    header-cell-template=""
+                    :visible="true"
+                    width="200"
+                />
+                <DxColumn
+                    data-field="oudPlanningAsignedToLink"
+                    caption='oudPlanningAsignedToLink'
+                    cell-template="cell2-template"
+                    :visible="true"
+                    width="370"
+                />
+                <template #cell2-template="{ data }">
+                  <div>
+                    <DxDataGrid
+                        id="grid6"
+                        :data-source=data.value
+                        :show-borders="false"
+                        :showColumnHeaders="false"
+                        :showRowLines="true"
+                        :column-auto-width="false"
+                        :wordWrapEnabled="true"
+                        :visible="true"
+                        width="370"
+                    >
+                      <DxColumn
+                          data-field="zkPUOrgstructureLink.name"
+                          caption='Подразделение'
+                          header-cell-template=""
+                          :visible="true"
+                          width="200"
+                      />
+                      <DxColumn
+                          data-field="version"
+                          caption='Версия'
+                          data-type="datetime"
+                          header-cell-template=""
+                          :visible="true"
+                          width="170"
+                      />
+                    </DxDataGrid>
+                  </div>
+                </template>
+              </DxDataGrid>
+            </div>
+          </template>
         </DxDataGrid>
         <DxDataGrid
             id="my-grid"
@@ -482,9 +709,11 @@ export default {
   computed: {
     fieldList: function() {
 //      return Object.keys(this.dataSource[0]);
+    if (this.dataSource) {
       return this.getDeepKeys(this.dataSource[0]);
+    } else { return []}
 
-    },
+    }
   },
   mounted () {
     this.myForm2 = this.$refs.form2.instance;
@@ -502,6 +731,7 @@ export default {
   data() {
     const menuItems = service.getmenuItems();
     const sales = service.getSales();
+    const plan = service.getPlan();
 
 /*
     const rql = `{
@@ -602,11 +832,13 @@ export default {
     return {
       menuItems,
       sales,
+      plan,
+      datasourceArray: {dsMenu: menuItems, dsSales: sales},
       isColumns: false,
       isNotColumnSelect: true,
       globalIndex: 1,
       selectionColumn: null,
-      dataSource: menuItems,
+      dataSource: undefined,
       myColumns: [],
       myTreeColumns: [],
       myGrid: null,
@@ -620,11 +852,22 @@ export default {
     };
   },
   methods: {
+    dsChange(value) {
+//      console.log(value);
+      if (value) {
+        this.dataSource = this.datasourceArray[value]
+      } else {
+        this.dataSource = undefined
+      }
+    },
     myShow() {
 //      console.log(this.objectDeepKeys(this.sales[0]));
 //      console.log(this.getDeepKeys(this.sales[0]));
-      console.log(this.myGrid.getDataSource().items());
-
+      if (this.dataSource) {
+        console.log(this.myGrid.getDataSource().items())
+      } else {
+        console.log('Undefined')
+      }
 //      console.log(this.myGrid);
     },
     findItemByKey(items, key) {
@@ -894,6 +1137,11 @@ export default {
   background-color: #eae6d2;
   font-style: italic;
   text-align: center;
+}
+
+.cell-no-border {
+  padding: 0px 0px;
+  margin: 0px 0px 0px;
 }
 
 .container {

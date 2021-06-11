@@ -526,8 +526,8 @@ const sales = [
                     "id":"6bffe15a-f6d2-4e1b-abb2-7ecb0c0146a1",
                     "version":"2019-09-19T11:12:45.052Z",
                     "type":"1d5bd027-c4c8-4022-a2ee-70fc518b2861",
-                    "name":"1231",
-                    "docNumber":"123",
+                    "name":"124",
+                    "docNumber":"124",
                     "inspector":null,
                     "docsNameKPM":{
                         "id":"91260978-2a0b-454c-adf0-670cc1f5d632",
@@ -556,7 +556,7 @@ const sales = [
                 "id":"81c07d6f-7bc7-475a-a9c9-24724b199d38",
                 "version":"2019-09-19T12:30:40.286Z",
                 "type":"2b287cff-a1dd-4b42-8452-42a01080025b",
-                "name":null,
+                "name":'Пробное значение',
                 "docMistakes":"11111"
             }
         },
@@ -599,8 +599,8 @@ const sales = [
                     "id":"17881e13-5a14-4cea-9545-6e7f034aa1b0",
                     "version":"2019-09-19T12:29:19.034Z",
                     "type":"1d5bd027-c4c8-4022-a2ee-70fc518b2861",
-                    "name":"123",
-                    "docNumber":"123111",
+                    "name":"125",
+                    "docNumber":"125",
                     "inspector":null,
                     "docsNameKPM":{
                         "id":"d140bde3-b654-4871-a21a-7ac83c8cec7b",
@@ -614,6 +614,12 @@ const sales = [
                             "version":"2019-09-17T11:24:29.123Z",
                             "type":"15b424cf-da47-4ef3-b30c-93180a83c32e",
                             "name":"ИС"
+                        },
+                        {
+                            "id":"10342670-2f9c-472a-99a8-32e99f1111f3",
+                            "version":"2019-09-17T11:24:29.123Z",
+                            "type":"15b424cf-da47-4ef3-b30c-93180a83c32e",
+                            "name":"ПКО"
                         }
                     ],
                     "orgFoivDepartment":{
@@ -629,7 +635,7 @@ const sales = [
                 "id":"fb49f8ab-32cb-4d6a-892a-db67891a956e",
                 "version":"2019-09-19T12:30:17.012Z",
                 "type":"2b287cff-a1dd-4b42-8452-42a01080025b",
-                "name":null,
+                "name":'Пробное значение 3',
                 "docMistakes":"+"
             }
         },
@@ -672,8 +678,8 @@ const sales = [
                     "id":"1e2bff0b-a960-40a5-aceb-4f499e9bf76b",
                     "version":"2019-09-18T16:10:58.544Z",
                     "type":"1d5bd027-c4c8-4022-a2ee-70fc518b2861",
-                    "name":"123",
-                    "docNumber":null,
+                    "name":"126",
+                    "docNumber":"126",
                     "inspector":null,
                     "docsNameKPM":{
                         "id":"80f3886f-bb68-4bde-8d63-3267092690fd",
@@ -702,7 +708,7 @@ const sales = [
                 "id":"3d10ea1f-cb9e-4553-be19-ca0ae4b4a304",
                 "version":"2019-09-26T16:06:40.435Z",
                 "type":"2b287cff-a1dd-4b42-8452-42a01080025b",
-                "name":null,
+                "name":'Пробное значение 3',
                 "docMistakes":"Вылов"
             }
         },
@@ -734,8 +740,8 @@ const sales = [
                     "id":"caaadf3d-9025-43f7-bf24-81ba5afde4c5",
                     "version":"2020-12-10T12:24:22.243Z",
                     "type":"1d5bd027-c4c8-4022-a2ee-70fc518b2861",
-                    "name":"123",
-                    "docNumber":"123",
+                    "name":"127",
+                    "docNumber":"127",
                     "inspector":null,
                     "docsNameKPM":{
                         "id":"0b7a45ed-5c52-4ce9-8080-408814a4d96b",
@@ -774,8 +780,8 @@ const sales = [
                     "id":"7063956b-1cbb-42fd-b7cd-1ae22e7252e1",
                     "version":"2021-03-26T17:09:10.987Z",
                     "type":"1d5bd027-c4c8-4022-a2ee-70fc518b2861",
-                    "name":null,
-                    "docNumber":"123",
+                    "name":128,
+                    "docNumber":"128",
                     "inspector":null,
                     "docsNameKPM":{
                         "id":"49b2b629-f2ea-4d07-a000-fd8281f1f2e9",
@@ -823,7 +829,7 @@ const sales = [
                 "id":"a7f4dd9a-a190-43cf-b1b5-a0d0b50d7f36",
                 "version":"2020-09-02T14:52:33.356Z",
                 "type":"2b287cff-a1dd-4b42-8452-42a01080025b",
-                "name":null,
+                "name":'Пробное значение 4',
                 "docMistakes":null
             }
         },
@@ -860,8 +866,8 @@ const sales = [
                     "id":"84237aeb-a6a0-4f5b-80df-1d0de68aadea",
                     "version":"2020-07-02T13:59:44.665Z",
                     "type":"1d5bd027-c4c8-4022-a2ee-70fc518b2861",
-                    "name":"23",
-                    "docNumber":"23",
+                    "name":"129",
+                    "docNumber":"129",
                     "inspector":null,
                     "docsNameKPM":{
                         "id":"80f3886f-bb68-4bde-8d63-3267092690fd",
@@ -890,7 +896,7 @@ const sales = [
                 "id":"afca4df7-b5a4-46c5-b8e3-a191c6fe5191",
                 "version":"2020-02-26T13:47:20.355Z",
                 "type":"2b287cff-a1dd-4b42-8452-42a01080025b",
-                "name":null,
+                "name":'Пробное значение 5',
                 "docMistakes":"123123"
             }
         },
@@ -915,8 +921,8 @@ const sales = [
                     "id":"ef6c7018-73b4-4e19-93b0-cf4b1334cdd1",
                     "version":"2020-08-10T15:28:52.065Z",
                     "type":"1d5bd027-c4c8-4022-a2ee-70fc518b2861",
-                    "name":null,
-                    "docNumber":"98",
+                    "name":"130",
+                    "docNumber":"130",
                     "inspector":null,
                     "docsNameKPM":{
                         "id":"80f3886f-bb68-4bde-8d63-3267092690fd",
@@ -924,7 +930,20 @@ const sales = [
                         "type":"04c7b50a-3e58-452d-bf83-fe26192aa52f",
                         "name":"Акт осмотра рыбопромыслового участка"
                     },
-                    "kpmForcesAndFacilitiesLink":null,
+                    "kpmForcesAndFacilitiesLink":[
+                        {
+                            "id":"10342670-2f9c-472a-99a8-32e99f1111f3",
+                            "version":"2019-09-17T11:24:29.123Z",
+                            "type":"15b424cf-da47-4ef3-b30c-93180a83c32e",
+                            "name":"ИС"
+                        },
+                        {
+                            "id":"c0e4f2cf-4d72-44b6-8aec-65892fdc6a43",
+                            "version":"2020-09-24T12:14:22.581Z",
+                            "type":"15b424cf-da47-4ef3-b30c-93180a83c32e",
+                            "name":"ФОИВ"
+                        }
+                    ],
                     "orgFoivDepartment":null,
                     "subdivisionInteractOne":null
                 },
@@ -932,8 +951,8 @@ const sales = [
                     "id":"7fd1e23a-2733-47d3-ba57-a05a13a14673",
                     "version":"2020-08-10T15:28:52.088Z",
                     "type":"1d5bd027-c4c8-4022-a2ee-70fc518b2861",
-                    "name":null,
-                    "docNumber":"0",
+                    "name":"131",
+                    "docNumber":"131",
                     "inspector":null,
                     "docsNameKPM":{
                         "id":"80f3886f-bb68-4bde-8d63-3267092690fd",
@@ -941,7 +960,26 @@ const sales = [
                         "type":"04c7b50a-3e58-452d-bf83-fe26192aa52f",
                         "name":"Акт осмотра рыбопромыслового участка"
                     },
-                    "kpmForcesAndFacilitiesLink":null,
+                    "kpmForcesAndFacilitiesLink":[
+                        {
+                            "id":"c1da7d97-99f1-4564-9558-38d0fe89316b",
+                            "version":"2019-09-17T11:20:29.283Z",
+                            "type":"15b424cf-da47-4ef3-b30c-93180a83c32e",
+                            "name":"ПСКР"
+                        },
+                        {
+                            "id":"77d365ad-a8dc-4c08-8c56-234fe9b549df",
+                            "version":"2019-09-17T11:23:10.860Z",
+                            "type":"15b424cf-da47-4ef3-b30c-93180a83c32e",
+                            "name":"ПКО"
+                        },
+                        {
+                            "id":"ad655053-4406-4906-a94f-5a8896972602",
+                            "version":"2019-09-17T11:23:57.794Z",
+                            "type":"15b424cf-da47-4ef3-b30c-93180a83c32e",
+                            "name":"ПСКА"
+                        }
+                    ],
                     "orgFoivDepartment":null,
                     "subdivisionInteractOne":null
                 }
@@ -950,7 +988,7 @@ const sales = [
                 "id":"0e87ac39-db76-44f4-991d-ad5da688634e",
                 "version":"2020-08-10T15:28:52.043Z",
                 "type":"2b287cff-a1dd-4b42-8452-42a01080025b",
-                "name":null,
+                "name":'Пробное значение 6',
                 "docMistakes":null
             }
         }
